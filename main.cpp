@@ -4,6 +4,7 @@
 #include "vigenere.h"
 #include "monoalphabetic.h"
 #include "hill.h"
+#include "playfair.h"
 #include "logger.h"
 
 int main(){
@@ -81,6 +82,16 @@ int main(){
     std::cout<<"Ciphertext  : "<<hill_ct<<"\n";
     std::cout<<"Decrypted  : "<<hill_pt<<"\n\n";
     logger.info("Finished Hill implementation.");
+
+     std::cout<<"=====Playfair Cipher====\n";
+    PlayfairCipher playfair("MONARCHY");
+
+    std::string pf_ct = playfair.encrypt(plaintext);
+    std::string pf_pt = playfair.decrypt(pf_ct);
+
+    std::cout << "Ciphertext: " << pf_ct << "\n";
+    std::cout << "Decrypted : " << pf_pt << "\n";
+    logger.info("Finished Playfair implementation.");
 
 
     return 0;

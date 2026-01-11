@@ -5,6 +5,7 @@
 #include "monoalphabetic.h"
 #include "hill.h"
 #include "playfair.h"
+#include "enigma.h"
 #include "logger.h"
 
 int main(){
@@ -92,6 +93,28 @@ int main(){
     std::cout << "Ciphertext: " << pf_ct << "\n";
     std::cout << "Decrypted : " << pf_pt << "\n";
     logger.info("Finished Playfair implementation.");
+
+
+    std::vector<std::string> rotors = {
+        "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 
+        "AJDKSIRUXBLHWTMCQGZNPYFVOE", 
+        "BDFHJLCPRTXVZNYEIWGAKMUSQO"  
+    };
+
+    std::string reflector = "YRUHQSLDPXNGOKMIEBFZCWVJAT"; 
+    std::string positions = "AAA"; 
+
+    EnigmaCipher enigma(rotors, reflector, positions);
+
+    std::string ct = enigma.encrypt(plaintext);
+
+    
+    EnigmaCipher enigma2(rotors, reflector, positions);
+    std::string pt = enigma2.decrypt(ct);
+
+    std::cout << "Enigma Cipher:\n";
+    std::cout << "Ciphertext: " << ct << "\n";
+    std::cout << "Decrypted : " << pt << "\n";
 
 
     return 0;

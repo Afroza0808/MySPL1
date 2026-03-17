@@ -8,6 +8,14 @@
 #include "enigma.h"
 #include "logger.h"
 
+#include "caesar_attack.h"
+#include "vigenere_attack.h"
+#include "hill_attack.h"
+#include "monoalphabetic_attack.h"
+#include "playfair_attack.h"
+#include "enigma_attack.h"
+
+
 int main(){
     Logger logger("run.log");
     logger.info("Starting Classical Encryption and Decryption :::");
@@ -106,17 +114,41 @@ int main(){
 
     EnigmaCipher enigma(rotors, reflector, positions);
 
-    std::string ct = enigma.encrypt(plaintext);
+    std::string enigma_ct = enigma.encrypt(plaintext);
 
     
     EnigmaCipher enigma2(rotors, reflector, positions);
-    std::string pt = enigma2.decrypt(ct);
+    std::string pt = enigma2.decrypt(enigma_ct);
 
     std::cout << "Enigma Cipher:\n";
-    std::cout << "Ciphertext: " << ct << "\n";
+    std::cout << "Ciphertext: " << enigma_ct << "\n";
     std::cout << "Decrypted : " << pt << "\n";
 
 
+    std::cout<<"\n==== Caesar Cryptanalysis ====\n";
+    caesar_attack::break_caesar(caesar_ct);
+
+
+    std::cout<<"\n==== Vigenere Cryptanalysis ====\n";
+    vigenere_attack::guess_key_length(vig_cipher);
+
+     std::cout<<"\n==== Monoalphabatic Cryptanalysis ====\n";
+     monoalphabetic_attack::break_mono(mono_ct);
+
+      std::cout<<"\n==== Hill Cryptanalysis ====\n";
+     hill_attack::known_plain_attack(hill_pt.substr(0,4), hill_ct.substr(0,4));
+
+      std::cout<<"\n==== Playfair Cryptanalysis ====\n";
+     playfair_attack::analyze_digraphs(pf_ct);
+
+      std::cout<<"\n==== Enigma Cryptanalysis ====\n";
+
+enigma_attack::brute_force_position(
+    enigma_ct,
+    "WELCOME",
+    rotors,
+    reflector
+);
     return 0;
 
 }
